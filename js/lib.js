@@ -117,7 +117,7 @@ function trySampleRequest() {
           'access_token=' + params['access_token']);*/
 	  xhr.setRequestHeader('Authorization', "Bearer " + params['access_token']);
 	  xhr.open('GET',
-          'https://www.googleapis.com/drive/v3/about?fields=user';
+          'https://www.googleapis.com/drive/v3/about?fields=user');
 		  
       xhr.onreadystatechange = function (e) {
         console.log(xhr.response);
