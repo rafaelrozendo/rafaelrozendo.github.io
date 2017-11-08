@@ -62,7 +62,7 @@ function exchangeOAuth2Token(params) {
   var oauth2Endpoint = APP_SETTINGS.validate_token_uri;
   if (params['access_token']) {
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', oauth2Endpoint + '?access_token=' + params['access_token']);
+    xhr.open('GET', oauth2Endpoint + '?access_token=' + params['access_token']);
     xhr.onreadystatechange = function (e) {
       var response = JSON.parse(xhr.response);
       // Verify that the 'aud' property in the response matches YOUR_CLIENT_ID.
