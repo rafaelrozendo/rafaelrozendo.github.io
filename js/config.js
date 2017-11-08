@@ -3,6 +3,7 @@ var APP_SETTINGS = {
 	authorize_uri: "https://accounts.google.com/o/oauth2/v2/auth",
 	scope: "https://www.googleapis.com/auth/drive.metadata.readonly",
 	redirect_uri: "https://rafaelrozendo.github.io",
-	validate_token: true,
-	validate_token_uri: "https://www.googleapis.com/oauth2/v3/tokeninfo"
+	validate_token: false,
+	validate_token_uri: "https://www.googleapis.com/oauth2/v3/tokeninfo",
+	api_uri: "https://www.googleapis.com/drive/v2/file"
 };

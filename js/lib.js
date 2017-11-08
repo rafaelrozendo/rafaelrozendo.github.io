@@ -2,7 +2,7 @@
  * Parse the query string to extract access token and other parameters.
  * This code is useful if you set a value for the 'state' parameter when redirecting the user to the OAuth 2.0 server, but otherwise isn't needed.
 */
-function getAuthenticationParameters() {
+function getAuthenticationParametersFromUri() {
 	var queryString = location.hash.substring(1);
 	var params = {};
 	var regex = /([^&=]+)=([^&]*)/g, m;
@@ -12,9 +12,33 @@ function getAuthenticationParameters() {
 	return params;
 }
 
+function getAuthenticationParametersFromLocalStorage() {
+	var params = JSON.parse(localStorage.getItem('oauth2-test-params'));
+	return params;
+}
+
+function getAuthenticationParameters() {
+	var paramsLocalStorage = getAuthenticationParametersFromLocalStorage();
+	if (paramsLocalStorage && paramsLocalStorage['access_token']) {
+		return paramsLocalStorage;
+	}
+	else {
+		return getAuthenticationParametersFromUri();
+	}
+}
+
+function setAuthenticationParametersInLocalStorage(params) {
+	localStorage.setItem('oauth2-test-params', JSON.stringify(params) );
+}
+
+
 function isAuthenticated() {
+	var paramsLocalStorage = getAuthenticationParameters();
+	if (paramsLocalStorage && paramsLocalStorage['access_token']) {
+		return true;
+	}
 	if (location.hash !== "") {
-		var params = getAuthenticationParameters();
+		var params = getAuthenticationParametersFromUri();
 		if (params.error === undefined) {
 			return true;
 		}
@@ -58,7 +82,7 @@ function oauthSignIn() {
 }
 
 /* Validate the access token received on the query string. */
-function exchangeOAuth2Token(params) {
+function validateOAuth2Token(params) {
   var oauth2Endpoint = APP_SETTINGS.validate_token_uri;
   if (params['access_token']) {
     var xhr = new XMLHttpRequest();
@@ -70,7 +94,7 @@ function exchangeOAuth2Token(params) {
           xhr.status == 200 &&
           response['aud'] &&
           response['aud'] == APP_SETTINGS.client_id) {
-        localStorage.setItem('oauth2-test-params', JSON.stringify(params) );
+        setAuthenticationParametersInLocalStorage(params);
 		console.log('Token validation successful');
       } else if (xhr.readyState == 4) {
         console.log('There was an error processing the token, another ' +
@@ -79,4 +103,23 @@ function exchangeOAuth2Token(params) {
     };
     xhr.send(null);
   }
+}
+
+
+// If there's an access token, try an API request.
+// Otherwise, start OAuth 2.0 flow.
+function trySampleRequest() {
+    var params = getAuthenticationParameters();
+    if (params && params['access_token']) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET',
+          'https://www.googleapis.com/drive/v3/about?fields=user&' +
+          'access_token=' + params['access_token']);
+      xhr.onreadystatechange = function (e) {
+        console.log(xhr.response);
+      };
+      xhr.send(null);
+    } else {
+      console.log("Não foi possível chamar a API: não autenticado");
+    }
 }

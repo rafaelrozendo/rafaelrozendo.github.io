@@ -3,13 +3,18 @@ $( document ).ready(function() {
 		alert("autenticou!!!!");
 		console.log("autenticado");
 		var params = getAuthenticationParameters();
-		if (APP_SETTINGS.validate_token) {
-			exchangeOAuth2Token(params);
-		}
+		setAuthenticationParametersInLocalStorage(params);
+		
+		//if (APP_SETTINGS.validate_token) {
+		//	validateOAuth2Token(params);
+		//}
+		
+		trySampleRequest();
+		
 	}
 	else {
 		alert("não esta autenticado!!!!");
 		console.log("chamando funcao pra autenticar");
-		oauthSignIn();
+		oauthSignIn(); //vai redirecionar pra página inicial
 	}
 });
