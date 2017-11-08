@@ -4,9 +4,12 @@
 */
 function getAuthenticationParametersFromUri() {
 	var queryString = location.hash.substring(1);
-	var params = {};
+	var params = null;
 	var regex = /([^&=]+)=([^&]*)/g, m;
 	while (m = regex.exec(queryString)) {
+		if (!params) {
+			params = {};
+		}
 		params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
 	}
 	return params;
@@ -47,6 +50,7 @@ function isAuthenticated() {
 }
 
 
+
 /*
  * Create form to request access token from Google's OAuth 2.0 server.
  */
@@ -60,12 +64,19 @@ function oauthSignIn() {
   form.setAttribute('action', oauth2Endpoint);
 
   // Parameters to pass to OAuth 2.0 endpoint.
-  var params = {'client_id': APP_SETTINGS.client_id,
+  /*var params = {'client_id': APP_SETTINGS.client_id,
                 'redirect_uri': APP_SETTINGS.redirect_uri,
                 'response_type': 'token',
                 'scope': APP_SETTINGS.scope,
                 'include_granted_scopes': 'true',
-                'state': 'pass-through value'};
+                'state': 'pass-through value'};*/
+				
+  var params = {'client_id': APP_SETTINGS.client_id,
+                'redirect_uri': APP_SETTINGS.redirect_uri,
+                'response_type': 'token',
+                'scope': APP_SETTINGS.scope,
+                'state': 'pass-through value',
+				'audience': APP_SETTINGS.audience };
 
   // Add form parameters as hidden input values.
   for (var p in params) {
