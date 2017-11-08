@@ -81,30 +81,6 @@ function oauthSignIn() {
   form.submit();
 }
 
-/* Validate the access token received on the query string. */
-function validateOAuth2Token(params) {
-  var oauth2Endpoint = APP_SETTINGS.validate_token_uri;
-  if (params['access_token']) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', oauth2Endpoint + '?access_token=' + params['access_token']);
-    xhr.onreadystatechange = function (e) {
-      var response = JSON.parse(xhr.response);
-      // Verify that the 'aud' property in the response matches YOUR_CLIENT_ID.
-      if (xhr.readyState == 4 &&
-          xhr.status == 200 &&
-          response['aud'] &&
-          response['aud'] == APP_SETTINGS.client_id) {
-        setAuthenticationParametersInLocalStorage(params);
-		console.log('Token validation successful');
-      } else if (xhr.readyState == 4) {
-        console.log('There was an error processing the token, another ' +
-                    'response was returned, or the token was invalid.')
-      }
-    };
-    xhr.send(null);
-  }
-}
-
 
 // If there's an access token, try an API request.
 // Otherwise, start OAuth 2.0 flow.

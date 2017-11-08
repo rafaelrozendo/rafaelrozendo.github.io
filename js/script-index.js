@@ -1,14 +1,14 @@
 $( document ).ready(function() {
     if (isAuthenticated()) {
 		console.log("autenticado");
-		console.log("redirecionando pra página da api");
 		var params = getAuthenticationParameters();
 		setAuthenticationParametersInLocalStorage(params);
-		
+		console.log("redirecionando pra página que chama a api");		
+		window.location.replace(APP_SETTINGS.redirect_uri);
 	}
 	else {
-		alert("não esta autenticado!!!!");
-		console.log("chamando funcao pra autenticar");
-		//oauthSignIn(); //vai redirecionar pra página inicial
+		alert("não está autenticado");
+		console.log("chamando autenticação oauth");
+		oauthSignIn();
 	}
 });
