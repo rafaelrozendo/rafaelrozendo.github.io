@@ -5,5 +5,10 @@ var APP_SETTINGS = {
 	redirect_uri: "https://rafaelrozendo.github.io",
 	validate_token: false,
 	validate_token_uri: "https://www.googleapis.com/oauth2/v3/tokeninfo",
-	api_uri: "https://www.googleapis.com/drive/v2/file"
+	api_uri: "https://www.googleapis.com/drive/v3/about?fields=user"
 };
+
+
+var APP_SETTINGS_TESTE = {
+	
+}

@@ -33,16 +33,16 @@ function setAuthenticationParametersInLocalStorage(params) {
 
 
 function isAuthenticated() {
-	var paramsLocalStorage = getAuthenticationParameters();
+	var paramsLocalStorage = getAuthenticationParametersFromLocalStorage();
 	if (paramsLocalStorage && paramsLocalStorage['access_token']) {
 		return true;
 	}
-	if (location.hash !== "") {
-		var params = getAuthenticationParametersFromUri();
-		if (params.error === undefined) {
-			return true;
-		}
-	}
+	//if (location.hash !== "") {
+	//	var params = getAuthenticationParametersFromUri();
+	//	if (params.error === undefined) {
+	//		return true;
+	//	}
+	//}
 	return false;
 }
 
@@ -112,12 +112,9 @@ function trySampleRequest() {
     var params = getAuthenticationParameters();
     if (params && params['access_token']) {
       var xhr = new XMLHttpRequest();
-      /*xhr.open('GET',
-          'https://www.googleapis.com/drive/v3/about?fields=user&' +
-          'access_token=' + params['access_token']);*/
 	  
 	  xhr.open('GET',
-          'https://www.googleapis.com/drive/v3/about?fields=user');
+          APP_SETTINGS.api_uri);
 	  xhr.setRequestHeader('Authorization', "Bearer " + params['access_token']);
 		  
       xhr.onreadystatechange = function (e) {
