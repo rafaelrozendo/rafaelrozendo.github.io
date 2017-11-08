@@ -4,6 +4,8 @@ $( document ).ready(function() {
 		console.log("autenticado");
 	}
 	else {
+		alert("não esta autenticado!!!!");
+		console.log("chamando funcao pra autenticar");
 		oauthSignIn();
 	}
 });
