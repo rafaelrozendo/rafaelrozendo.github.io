@@ -22,7 +22,7 @@ function getAuthenticationParameters() {
  */
 function oauthSignIn() {
   // Google's OAuth 2.0 endpoint for requesting an access token
-  var oauth2Endpoint = authorize_uri;
+  var oauth2Endpoint = APP_SETTINGS.authorize_uri;
 
   // Create <form> element to submit parameters to OAuth 2.0 endpoint.
   var form = document.createElement('form');
