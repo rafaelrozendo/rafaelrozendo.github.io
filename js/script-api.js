@@ -17,6 +17,6 @@ $( document ).ready(function() {
 	else {
 		alert("não está autenticado!!!!");
 		console.log("iniciando fluxo de autenticação oauth");
-		oauthSignIn(); //vai redirecionar pra página inicial
+		//oauthSignIn(); 
 	}
 });
